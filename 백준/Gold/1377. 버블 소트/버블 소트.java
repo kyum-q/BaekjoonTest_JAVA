@@ -1,49 +1,55 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+        // N 입력
         int N = Integer.parseInt(br.readLine());
 
-        BubbleSort [] A = new BubbleSort[N];
-        for(int i=0;i<N;i++){
-            // index와 값을 함께 저장
-            A[i] = new BubbleSort(Integer.parseInt(br.readLine()), i);
+        // 숫자들을 index번호와 함께 저장하는 배열 입력
+        Node [] nums = new Node[N];
+
+        for (int i = 0; i < N; i++) {
+            nums[i] = new Node(i, Integer.parseInt(br.readLine()));
         }
 
-        // 정렬
-        Arrays.sort(A);
+        // 배열 정렬
+        Arrays.sort(nums, new Comparator<Node>() {
+            @Override
+            public int compare(Node o1, Node o2) {
+                if(o1.value > o2.value)
+                    return 1;
+                else if(o1.value < o2.value)
+                    return -1;
+                else
+                    return 0;
+            }
+        });
 
-        // 정렬되기까지 버블 정렬 횟수
-        int maxValue = 0;
-        for(int i=0; i<N; i++) {
-            int preIndex = A[i].index;
-            if (preIndex - i > maxValue) {
-                maxValue = preIndex - i;
+        // 정렬 후 배열에 index와 현재 i 값을 비교해 왼쪽으로 이동한 최대 수가 max 값
+        int max = 0;
+
+        for (int i = 0; i < N; i++) {
+            if(max < nums[i].index - i) {
+                max = nums[i].index - i;
             }
         }
 
-        System.out.println(maxValue + 1);
+        // max 출력
+        System.out.println(max+1);
     }
 }
 
-// 값과 인덱스를 모두 담을 수 있는 클래스 (sort할때 비교가 가능하게 Comparable 인터페이스 구현)
-class BubbleSort implements Comparable<BubbleSort> {
-    int value;
-    int index;
-
-    BubbleSort(int value, int index) {
-        this.value = value;
+class Node {
+    public int index;
+    public int value;
+    public Node(int index, int value) {
         this.index = index;
+        this.value = value;
     }
 
-    // 비교를 해주는 함수 (value의 값이 크면 배열 끝으로)
-    @Override
-    public int compareTo(BubbleSort b) {
-        return this.value - b.value;
-    }
 }
