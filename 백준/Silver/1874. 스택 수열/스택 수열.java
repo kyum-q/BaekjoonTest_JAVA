@@ -1,60 +1,61 @@
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.*;
 import java.util.Stack;
 
 public class Main {
-	public static void main(String [] args){
-		Scanner sc = new Scanner(System.in);
-		
-		// n개의 수
-		int N = sc.nextInt();
-		int num [] = new int [N];
-		
-		// 해당 배열 가능 여부
-		boolean stackCheck = true;
-		
-		// stack
-		Stack<Integer> stack = new Stack<Integer>();
-		
-		// stack 입출력 배열
-		ArrayList<String> result = new ArrayList<String>();
-		
-		// 수열 입력
-		for(int i=0;i<N;i++) 
-			num[i] = sc.nextInt();
-		
-		// 현재 스택의 개수
-		int stackSum = 0;
-		
-		for(int i=0;i<N;i++) {
-			// 현재 값이 이전 pop된 값보다 클 경우 (data push)
-			if(i==0 || num[i]>num[i-1]) {
-				// 현재 값(num[i]) 만큼 스택에 +num (push) and -1 pop
-				for(int s=stackSum+1;s<=num[i];s++) {
-					stackSum++;
-					stack.push(s);
-					result.add("+\n");
-				}
-				stack.pop();
-				result.add("-\n");
-			}
-			// 현재 값이 이전 pop된 값보다 작을 경우 (data pop)
-			else {
-				int pop = stack.pop();
-				result.add("-\n");
-				
-				// 현재 top에 있는 수가 현재 값보다 클 경우
-				if(pop > num[i]) {
-					stackCheck = false;
-					break;
-				}
-			}
-		}
-		if(stackCheck)	{
-			for(int i=0;i<N*2;i++)
-				System.out.print(result.get(i));
-		}
-		else
-			System.out.print("NO");
-	}
+    public static void main(String [] args) throws IOException {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder result = new StringBuilder();
+
+        Stack<Integer> stack = new Stack<Integer>();
+
+        // N 입력
+        int N = Integer.parseInt(br.readLine());
+
+        // 가장 높은 pop된 숫자 기억
+        int maxPopNum = 0;
+
+        // N개 수 입력
+        for(int i=0;i<N;i++) {
+            int num = Integer.parseInt(br.readLine());
+
+            if(maxPopNum == -1) {
+                continue;
+            }
+
+            // maxPopNum < num
+            if(maxPopNum < num) {
+                // num까지 스택에 넣기
+                for(int j=maxPopNum+1;j<=num;j++) {
+                    stack.push(j);
+                    result.append("+");
+                }
+                // num pop
+                stack.pop();
+
+                //maxPopNum 바꾸기
+                maxPopNum = num;
+            }
+            // maxPopNum > num
+            else {
+                int popNum = stack.pop();
+                if(popNum != num) {
+                    //불가능 한 경우면 maxPopNum = -1로, break
+                    maxPopNum = -1;
+                    continue;
+                }
+            }
+            result.append("-");
+        }
+
+        if(maxPopNum == -1) {
+            System.out.println("NO");
+        }
+        else {
+            for(int i=0;i<result.length()-1;i++) {
+                System.out.println(result.charAt(i));
+            }
+            System.out.print(result.charAt(result.length()-1));
+        }
+    }
 }
