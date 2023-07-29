@@ -50,6 +50,8 @@ public class Main {
         while(index1 <= m && index2 <= e) {
             if(temp[index1] > temp[index2]) {
                 nums[i] = temp[index2++];
+
+                // 앞 배열에 남아있는 것들을 하나씩 swap해야하는 것이므로 남아있는 개수를 result에 다 더함
                 result += m+1 - index1;
             }
             else {
