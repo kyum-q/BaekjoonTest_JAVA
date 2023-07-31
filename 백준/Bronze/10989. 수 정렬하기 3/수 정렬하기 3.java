@@ -35,11 +35,14 @@ public class Main {
     }
 
     public static void radixSort(int [] nums) {
-        Queue<Integer> [] queue = new Queue [10];
-
-        for(int i=0;i<10;i++) {
-            queue[i] = new LinkedList<>();
-        }
+        int num2 [] = new int[nums.length];
+//
+//        for(int i=0;i<10;i++) {
+//            queue[i] = new LinkedList<>();
+//        }
+//        for (int i = 0; i < nums.length; i++) {
+//            queue[(nums[i] % 10)].add(nums[i]);
+//        }
 
 //        int tenMul = 1;
 //        boolean isClear = false;
@@ -55,7 +58,7 @@ public class Main {
 //                if(nums[i] / tenMul > 0) {
 //                    isClear = false;
 //                }
-            }
+//            }
 //
 //            int k = 0;
 //            for (int i = 0; i < 10; i++) {
@@ -66,5 +69,5 @@ public class Main {
 //            }
 //            tenMul *= 10;
 //        }
-//    }
+    }
 }
