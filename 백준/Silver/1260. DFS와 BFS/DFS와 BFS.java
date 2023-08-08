@@ -57,30 +57,27 @@ public class Main {
         bw.close();
     }
 
-    public static void DFS(int start) throws IOException {
-        if (isChecked[start]) return;
+    public static void DFS(int index) throws IOException {
+        if (isChecked[index]) return;
 
         // 출력
-        bw.write(start + 1 + " ");
+        bw.write(index + 1 + " ");
 
         // 체크했음을 기록
-        isChecked[start] = true;
+        isChecked[index] = true;
 
         // 인접 노드 확인
-        for (int i = 0; i < list[start].size(); i++) {
-            DFS((Integer) list[start].get(i));
+        for (int i = 0; i < list[index].size(); i++) {
+            DFS((Integer) list[index].get(i));
         }
     }
 
-    public static void BFS(int start) throws IOException {
+    public static void BFS(int index) throws IOException {
         Queue<Integer> queue = new LinkedList();
-
-        int index = start;
         queue.add(index);
         isChecked[index] = true;
 
         while (!queue.isEmpty()) {
-
             // 출력
             index = queue.poll();
             bw.write(index + 1 + " ");
@@ -88,7 +85,7 @@ public class Main {
             // 인접 노드 확인
             for (int i = 0; i < list[index].size(); i++) {
                 int newIndex = (Integer) list[index].get(i);
-                
+
                 // 확인한 노드가 아니면 queue에 삽입 후 확인했음을 기록
                 if (!isChecked[newIndex]) {
                     queue.add(newIndex);
