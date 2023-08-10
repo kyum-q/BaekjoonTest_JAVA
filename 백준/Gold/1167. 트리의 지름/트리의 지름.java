@@ -40,20 +40,18 @@ public class Main {
         }
 
         // 아무 노드나 시작 노드로 설정해서 DFS
-        int newDistance = DFS(0, 0);
+        DFS(0, 0);
 
         // 가장 컸던 노드를 설정해서 DFS
-        newDistance = DFS(maxNodeLastIndex, 0);
-        System.out.println(maxDistance);
+        DFS(maxNodeLastIndex, 0);
 
+        System.out.println(maxDistance);
     }
 
     public static int DFS(int index, int distance) {
         isChecked[index] = true;
 
-        // 현재 index에서 가장 긴 distance를 알기 위해 사용되는 변수
-        int max = distance;
-
+        boolean isEndNode = true;
         // 해당 index의 연결된 트리 정점을 모두 확인
         for (int i = 0; i < lists[index].size(); i++) {
             // 연결된 트리 정점 꺼내기
@@ -61,11 +59,13 @@ public class Main {
 
             // 해당 node가 확인된 node인지 체크
             if (!isChecked[node.peak]) {
+                isEndNode = false;
+                
                 // 현재 합쳐진 거리와 지금 max 거리 중에 큰 값을 max거리로 설정
                 maxDistance = Math.max(maxDistance, distance + node.distance);
 
                 // 해당 node DFS 실행
-                max = DFS(node.peak, distance + node.distance);
+                DFS(node.peak, distance + node.distance);
 
                 // 현재  node를 통해 얻어진 최대 거리와 지금 max 거리 중에 큰 값을 max 거리로 설정
 //                max = Math.max(max, newDistance);
@@ -74,11 +74,11 @@ public class Main {
 
         isChecked[index] = false;
 
-        if (max == distance && maxDistance == max) {
+        if (isEndNode && maxDistance == distance) {
             maxNodeLastIndex = index;
         }
 
-        return max;
+        return distance;
     }
 
     public static class Node {
