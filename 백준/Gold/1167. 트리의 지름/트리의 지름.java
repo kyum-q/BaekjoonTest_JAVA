@@ -7,11 +7,11 @@ import java.util.StringTokenizer;
 public class Main {
     public static int maxDistance = 0;
     public static int maxNodeLastIndex = 0;
-    public static boolean [] isChecked;
+    public static boolean[] isChecked;
 
     public static ArrayList<Node>[] lists;
 
-    public static void main(String [] args) throws IOException {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         // V 입력
@@ -41,11 +41,9 @@ public class Main {
 
         // 아무 노드나 시작 노드로 설정해서 DFS
         int newDistance = DFS(0, 0);
-        maxDistance = Math.max(maxDistance, newDistance);
 
         // 가장 컸던 노드를 설정해서 DFS
         newDistance = DFS(maxNodeLastIndex, 0);
-        maxDistance = Math.max(maxDistance, newDistance);
         System.out.println(maxDistance);
 
     }
@@ -53,20 +51,30 @@ public class Main {
     public static int DFS(int index, int distance) {
         isChecked[index] = true;
 
+        // 현재 index에서 가장 긴 distance를 알기 위해 사용되는 변수
         int max = distance;
+
+        // 해당 index의 연결된 트리 정점을 모두 확인
         for (int i = 0; i < lists[index].size(); i++) {
+            // 연결된 트리 정점 꺼내기
             Node node = lists[index].get(i);
 
-            if(!isChecked[node.peak]) {
+            // 해당 node가 확인된 node인지 체크
+            if (!isChecked[node.peak]) {
+                // 현재 합쳐진 거리와 지금 max 거리 중에 큰 값을 max거리로 설정
                 maxDistance = Math.max(maxDistance, distance + node.distance);
-                int newDistance = DFS(node.peak, distance + node.distance);
-                max = Math.max(max, newDistance);
+
+                // 해당 node DFS 실행
+                max = DFS(node.peak, distance + node.distance);
+
+                // 현재  node를 통해 얻어진 최대 거리와 지금 max 거리 중에 큰 값을 max 거리로 설정
+//                max = Math.max(max, newDistance);
             }
         }
 
         isChecked[index] = false;
 
-        if(max == distance && maxDistance == max) {
+        if (max == distance && maxDistance == max) {
             maxNodeLastIndex = index;
         }
 
