@@ -21,8 +21,9 @@ public class Main {
         // 최대 합
         int result = 0;
 
-        // i==0일때까지 반복
         int i = N - 1;
+
+        // 양수 값일 경우 큰 수부터 확인
         while (i >= 0 && nums[i] > 0) {
             // i-1이 0보다 크거나 같을 때
             if (i - 1 >= 0) {
@@ -45,6 +46,7 @@ public class Main {
             }
         }
 
+        // 음수 값일 경우 작은 수부터 확인
         int lastIndex = i;
         i = 0;
         while (lastIndex >= i) {
