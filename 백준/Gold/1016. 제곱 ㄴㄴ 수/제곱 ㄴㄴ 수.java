@@ -1,32 +1,33 @@
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String [] args) {
         Scanner sc = new Scanner(System.in);
 
+        // min, max 입력
         long min = sc.nextLong();
         long max = sc.nextLong();
         int range = (int) (max - min + 1);
 
-        boolean[] isSquareFree = new boolean[range];
-        for (int i = 0; i < range; i++) {
-            isSquareFree[i] = true;
-        }
+        // 배열 생성
+        boolean[] check = new boolean[range];
+        for (long i = 2; i * i<= max; i++) {
+            // 제곱 수
+            long pow = i * i;
+            long newPow = pow * Math.max((min / pow), 1);
 
-        for (long i = 2; i * i <= max; i++) {
-            long start = (min / (i * i)) * (i * i);
-            if (start < min) {
-                start += i * i;
+            if (newPow < min) {
+                newPow += i * i;
             }
-
-            for (long j = start; j <= max; j += i * i) {
-                isSquareFree[(int) (j - min)] = false;
+            
+            for(long j=newPow;j<=max;j+=pow) {
+                check[(int) (j - min)] = true;
             }
         }
 
         int count = 0;
         for (int i = 0; i < range; i++) {
-            if (isSquareFree[i]) {
+            if (!check[i]) {
                 count++;
             }
         }
