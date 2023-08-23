@@ -34,17 +34,16 @@ public class Main {
         }
 
         // i를 해킹 했을 때, 해킹 가능한 컴퓨터 수 알아내기
-
         int max = 0;
         for(int i=0;i<N;i++) {
             isChecked = new boolean[N];
             bfs(i);
         }
 
+        // 해킹할 수 있는 컴퓨터 개수의 최댓값 알아내기
         for(int i=0;i<N;i++) {
             max = Math.max(max, counts[i]);
         }
-
 
         // 가장 많이 해킹할 수 있는 컴퓨터 개수가 max 인 것들의 index를 출력
         for(int i=0;i<N;i++) {
