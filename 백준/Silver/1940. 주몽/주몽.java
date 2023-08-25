@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,18 +30,16 @@ public class Main {
 		// 정렬된 num배열을 start는 앞부터 end는 뒤부터 검사하면서 M을 충족시키는 두 수를 찾는다
 		// while 문 (start가 end보다 커질 때까지)
 		while(start < end) {
-			if(num[start]+num[end]==M)	{// M과 동일하면 count 증가
+			if(num[start]+num[end] == M)	{// M과 동일하면 count 증가
 				count++;
 				start++;
 				end--;
 			}
-			else if(num[start]+num[end]>M) {// sum이 더 크면 end를 줄여 합을 작게 함
+			else if(num[start]+num[end] > M) // sum이 더 크면 end를 줄여 합을 작게 함
 				end--;
-			}
 			else
 				start++; // M보다 합이 작은거니 start를 늘려 합이 커지게함	
 		}
 		System.out.println(count);
-		br.close();
 	}
 }
