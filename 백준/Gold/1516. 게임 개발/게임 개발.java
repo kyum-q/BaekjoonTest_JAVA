@@ -44,8 +44,9 @@ public class Main {
                 sum[index] = Math.max(sum[index], building[index]);
 
             ArrayList<Integer> list = lists[index];
-            for (int j = 0; j < list.size(); j++) {
+            for(int j=0;j<list.size();j++) {
                 int material = list.get(j);
+                // 선행 건물을 통해 짓는 경우와 직접 짓는 경우 중 더 오래 걸리는 시간을 선택
                 sum[material] = Math.max(sum[material], sum[index] + building[material]);
                 inDegrees[material]--;
             }
