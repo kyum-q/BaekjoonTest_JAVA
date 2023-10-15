@@ -33,14 +33,14 @@ public class Main {
         double count = 0;
 
         for (int i = 2; i <= N; i++) {
-            if(lists[i].size() == 1)
+            if(lists[i].size() == 1) {
                 count++;
+            }
         }
 
         // 물이 멈췄을 경우는 모든 물이 최하단 리프에만 있음을 의미
         // 즉, (고인 물의 양 / 최하단 리프 개수) 출력
-        System.out.println(String.format("%.10f", (double)W/count));
-
+        System.out.println(String.format("%.4f", (double) W/count));
     }
 }
 
