@@ -40,12 +40,12 @@ class Solution
 						}
 					}
 				}
-				if(emptyWidth[i][N] == K) {
-					sum++;
-				}
 			}
 			
 			for (int i = 1; i <= N; i++) {
+				if(emptyWidth[i][N] == K) {
+					sum++;
+				}
 				if(emptyHeight[N][i] == K) {
 					sum++;
 				}
