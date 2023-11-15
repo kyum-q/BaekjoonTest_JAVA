@@ -19,15 +19,14 @@ class Solution
 			int N = sc.nextInt();
 			int K = sc.nextInt();
 			
-			int nums[][] = new int [N+1][N+1];
 			int emptyWidth[][] = new int [N+1][N+1];
 			int emptyHeight[][] = new int [N+1][N+1];
 			
 			int sum = 0;
 			for (int i = 1; i <= N; i++) {
 				for (int j = 1; j <= N; j++) {
-					nums[i][j] = sc.nextInt();
-					if(nums[i][j] == 1) {
+					int num = sc.nextInt();
+					if(num == 1) {
 						emptyWidth[i][j] = emptyWidth[i][j-1] + 1;
 						emptyHeight[i][j] = emptyHeight[i-1][j] + 1; 
 					}
