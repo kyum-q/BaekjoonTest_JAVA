@@ -34,6 +34,7 @@ public class Main {
     public static void dfs(int y, int x, int direction) {
         map[y][x] = -1;
 
+        // 닦을 곳이 있어서 앞으로
         for (int i = 0; i < 4; i++) {
             direction = (direction + 3) % 4;
 
@@ -46,6 +47,7 @@ public class Main {
             }
         }
 
+        // 닦을 곳이 없어서 뒤로
         int back = (direction + 2) % 4;
 
         int by = y + dy[back];
