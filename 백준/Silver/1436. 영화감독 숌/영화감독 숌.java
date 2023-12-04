@@ -5,18 +5,18 @@ public class Main {
 
         int N = Integer.parseInt(br.readLine());
 
-        int max = 0;
+        int result = 0;
         String six = "666";
         for (int i = 0; i < N; i++) {
-            int value = max + 1;
+            int value = result + 1;
             String valueS = String.valueOf(value);
             while(!valueS.contains(six)) {
                 value++;
                 valueS = String.valueOf(value);
             }
-            max = value;
+            result = value;
         }
 
-        System.out.println(max);
+        System.out.println(result);
     }
 }
