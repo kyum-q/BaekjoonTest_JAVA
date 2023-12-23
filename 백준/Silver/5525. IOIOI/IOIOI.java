@@ -11,23 +11,25 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
         int M = Integer.parseInt(br.readLine());
 
-        String s = br.readLine();
-
-        String checkS = "I";
-        for (int i = 0; i < N; i++) {
-            checkS += "OI";
-        }
-
-        int checkSLen = checkS.length();
+        char [] s = br.readLine().toCharArray();
+        
+        int result = 0;
         int count = 0;
-        for (int i = 0; i <= M-checkSLen; i++) {
-            if(s.charAt(i) == 'I' && s.substring(i, i+checkSLen).equals(checkS)) {
+        for (int i = 1; i < M-1; i++) {
+            if(s[i-1] == 'I' && s[i] == 'O' &&  s[i+1] == 'I') {
                 count++;
+                if(count == N) {
+                    count--;
+                    result++;
+                }
                 i++;
+            }
+            else {
+                count = 0;
             }
         }
 
-        bw.write(count + "\n");
+        bw.write(result + "\n");
         bw.flush();
         bw.close();
     }
