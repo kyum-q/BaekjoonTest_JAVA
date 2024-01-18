@@ -1,56 +1,42 @@
 import java.io.*;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         int N = Integer.parseInt(br.readLine());
 
-        SortString [] s = new SortString[N];
+        TreeSet<Word> words = new TreeSet<>();
         for (int i = 0; i < N; i++) {
-            s[i] = new SortString(br.readLine());
+            words.add(new Word(br.readLine()));
         }
 
-        Arrays.sort(s);
-
-        String check = "";
-        for (int i = 0; i < N; i++) {
-            if(!check.equals(s[i].s)) {
-                System.out.println(s[i]);
-                check = s[i].s;
-            }
+        for(Word w : words) {
+            bw.write(w.s + "\n");
         }
+
+        bw.flush();
+        bw.close();
     }
 
-    public static class SortString implements Comparable<SortString> {
-
+    public static class Word implements Comparable<Word> {
         String s;
-        public SortString(String s) {
+        int len;
+
+        public Word(String s) {
             this.s = s;
+            len = s.length();
         }
 
         @Override
-        public String toString() {
-            return s;
-        }
-
-        @Override
-        public int compareTo(SortString sort) {
-            String s2 = sort.s;
-            if(s.length() == s2.length()) {
-                for (int i = 0; i < s.length(); i++) {
-                    if(s.charAt(i) > s2.charAt(i)) {
-                        return 1;
-                    }
-                    else if(s.charAt(i) < s2.charAt(i)) {
-                        return -1;
-                    }
-                }
+        public int compareTo(Word o) {
+            if(len == o.len) {
+                return s.compareTo(o.s);
             }
-            return s.length() - s2.length();
+            return  len - o.len;
         }
     }
+
 }
