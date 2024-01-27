@@ -1,9 +1,6 @@
 import java.util.*;
 
 class Solution {
-    public static void main(String[] args) {
-        new Solution().solution(new int[]{93,30,55}, new int[]{1,30,5});
-    }
     public int[] solution(int[] progresses, int[] speeds) {
         ArrayList<Integer> result = new ArrayList<>();
         HashMap<Integer, Integer> check = new HashMap<>();
@@ -19,7 +16,6 @@ class Solution {
                 for (int i = index; i < progresses.length; i++) {
                     int value = check.get(i);
                     if(value >= 100) {
-                        check.remove(i);
                         count++;
                     }
                     else
