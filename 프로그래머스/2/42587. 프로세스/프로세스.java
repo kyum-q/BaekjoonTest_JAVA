@@ -1,7 +1,4 @@
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 class Solution {
     public int solution(int[] priorities, int location) {
@@ -13,8 +10,8 @@ class Solution {
 
         Arrays.sort(priorities);
 
-        int len = priorities.length-1;
-        int count = 0;
+        int len = priorities.length;
+        int count = 1;
         while (!processes.isEmpty()) {
             Process p = processes.poll();
 
@@ -29,7 +26,7 @@ class Solution {
             count++;
         }
 
-        return count+1;
+        return count;
     }
 
     public static class Process {
