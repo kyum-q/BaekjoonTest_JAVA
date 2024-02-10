@@ -26,18 +26,17 @@ public class Main {
                 dp[0][1] = dp[1][0] + stikers[0][1];
                 dp[1][1] = dp[0][0] + stikers[1][1];
             }
-            
+
             for (int i = 2; i < N; i++) {
                 for (int j = 0; j < 2; j++) {
-                        dp[j][i] = Math.max(dp[(j + 1) % 2][i - 1] + stikers[j][i], dp[(j + 1) % 2][i - 2] + stikers[j][i]);
+                    dp[j][i] = Math.max(dp[(j + 1) % 2][i - 1], dp[(j + 1) % 2][i - 2]) + stikers[j][i];
                 }
             }
 
             bw.write(Math.max(dp[0][N-1], dp[1][N-1]) + "\n");
         }
-        
+
         bw.flush();
         bw.close();
     }
-    
 }
