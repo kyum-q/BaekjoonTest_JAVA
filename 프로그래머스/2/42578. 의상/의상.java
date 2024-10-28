@@ -1,23 +1,22 @@
-import java.util.TreeMap;
+import java.util.*;
 
 class Solution {
     public int solution(String[][] clothes) {
-        TreeMap<String, Integer> map = new TreeMap<>();
-
-        for (String[] clothe : clothes) {
-            String kind = clothe[1];
-            if (map.containsKey(kind)) {
-                map.put(kind, map.get(kind) + 1);
-            } else {
-                map.put(kind, 1);
+        Map<String, Integer> map = new HashMap();
+        for(String [] c : clothes) {
+            if(map.containsKey(c[1])) {
+                map.put(c[1], map.get(c[1]) + 1);
+            }
+            else {
+                map.put(c[1], 1);
             }
         }
-
-        int answer = 1;
-        for (int n : map.values()) {
-            answer *= (n+1);
+        
+        int result = 1;
+        for(int v : map.values()) {
+            result = result * (v+1);
         }
-
-        return answer - 1;
+        
+        return result - 1;
     }
 }
