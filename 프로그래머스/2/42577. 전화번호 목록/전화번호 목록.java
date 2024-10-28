@@ -1,20 +1,17 @@
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
+import java.util.stream.Collectors;
 
 class Solution {
-
-    public static void main(String[] args) {
-        new Solution().solution(new String[]{"119", "120", "1195524421"});
-    }
     public boolean solution(String[] phone_book) {
-        Arrays.sort(phone_book, Collections.reverseOrder());
-
-        for (int i = 0; i < phone_book.length-1; i++) {
-            if (phone_book[i].startsWith(phone_book[i+1]))
+        List<String> list = Arrays.stream(phone_book).sorted().collect(Collectors.toList());
+        
+        for(int i=0;i<list.size()-1;i++) {
+        String value = list.get(i);
+            if(list.get(i+1).startsWith(value)) {
                 return false;
-
+            }
         }
-
+        
         return true;
     }
 }
