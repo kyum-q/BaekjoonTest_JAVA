@@ -1,52 +1,46 @@
-class Solution {
-    public static String target;
-    public static String [] words;
+public class Solution {
+
     public static void main(String[] args) {
-        String [] words = {"hot", "dot", "dog", "lot", "log", "cog"};
-        int result = new Solution().solution("hit","cog",words);
-        System.out.println(result);
+        int result = new Solution().solution("hit", "cog", new String[]{
+                "hot", "dot", "dog", "lot", "log", "cog"
+        });
+        System.out.println(result);  // Expected output: 4
     }
+
+    private boolean[] visited;
+
     public int solution(String begin, String target, String[] words) {
-        this.target = target;
-        this.words = words;
-
-        boolean [] visit = new boolean[words.length];
-
-        int answer = DFS(begin, -1, 0, visit);
-
-        return answer;
+        visited = new boolean[words.length];
+        int result = BFS(begin, target, words);
+        return result == Integer.MAX_VALUE ? 0 : result - 1;
     }
 
-    public static int DFS(String begin, int index, int sum, boolean [] visit) {
-        if(words.length <= index)
-            return 0;
-        if(begin.equals(target))
-            return sum;
+    public int BFS(String begin, String target, String[] words) {
+        if (begin.equals(target)) {
+            return 1;
+        }
 
-        int gapSize;
+        int result = Integer.MAX_VALUE;
+        for (int i = 0; i < words.length; i++) {
+            if (visited[i]) continue;  // 이미 방문한 단어는 스킵
 
-        int min = 9999;
-        for (int j = 0; j < words.length; j++) {
-            if(j == index) continue;
-            String next = words[j];
-            gapSize = 0;
-            for (int i = 0; i < next.length(); i++) {
-                if (next.charAt(i) != begin.charAt(i)) {
-                    gapSize++;
+            int count = 0;
+            for (int j = 0; j < words[i].length(); j++) {
+                if (words[i].charAt(j) != begin.charAt(j)) {
+                    count++;
+                    if (count > 1) break;
                 }
             }
-            if(gapSize <= 1 && !visit[j]) {
-                visit[j] = true;
-                int result = DFS(next, j, sum+1, visit);
-                if(result != 0)
-                    min = Math.min(min, result);
-                visit[j] = false;
+
+            if (count == 1) {  // 한 글자만 다른 경우에만 진행
+                visited[i] = true;
+                int bfsResult = BFS(words[i], target, words);
+                if (bfsResult != Integer.MAX_VALUE) {
+                    result = Math.min(result, bfsResult + 1);
+                }
+                visited[i] = false;  // 탐색이 끝난 후 방문 해제
             }
         }
-        if(min == 9999)
-            return 0;
-        else
-            return min;
+        return result;
     }
 }
-
