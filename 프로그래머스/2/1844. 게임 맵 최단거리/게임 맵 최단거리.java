@@ -1,72 +1,58 @@
-import java.awt.*;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 class Solution {
-    int[][] maps;
-    int width, height;
-    boolean isFinished = false;
-    boolean[][] visited;
-    int[][] dics;
-
+    
+    private int maxRow;
+    private int maxCol;
+    
+    private final int [] dx = {1, -1, 0, 0};
+    private final int [] dy = {0, 0, 1, -1};
+    
     public int solution(int[][] maps) {
-        this.maps = maps;
-        width = maps.length;
-        height = maps[0].length;
-        visited = new boolean[width][height];
-        dics = new int[width][height];
-
-        BFS();
-
-        if (isFinished) return dics[width - 1][height - 1] + 1;
-        else return -1;
+        
+        
+        return BFS(maps);
     }
-
-    public void BFS() {
-        // 우선순위 큐를 사용하여 가장 짧은 경로를 먼저 탐색
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(new Node(0, 0));
-
-        // 상하좌우 이동 배열
-        int[] dx = {-1, 1, 0, 0};
-        int[] dy = {0, 0, -1, 1};
-
-        while (!queue.isEmpty()) {
-            Node point = queue.poll();
-            int x = point.x;
-            int y = point.y;
-
-            // 목적지에 도착하면 isFinished를 true로 설정하고 종료
-            if (x == width - 1 && y == height - 1) {
-                isFinished = true;
-                break;
-            }
-
-            // 이웃 셀 탐색
-            for (int i = 0; i < 4; i++) {
-                int nx = x + dx[i];
-                int ny = y + dy[i];
-
-                // 유효한 범위 내에 있고, 방문하지 않았으며, 벽이 아닌 경우
-                if (isValid(nx, ny) && !visited[nx][ny] && maps[nx][ny] == 1) {
-                    visited[nx][ny] = true;
-                    queue.add(new Node(nx, ny));
-                    dics[nx][ny] = dics[x][y] + 1;
+    
+    public int BFS(int[][] maps) {
+        Queue<Location> queue = new LinkedList<>();
+        maxRow = maps[0].length;
+        maxCol = maps.length;
+        boolean [][] visited = new boolean[maxCol][maxRow];
+        visited[0][0] = true;
+        queue.add(new Location(0,0));
+        
+        int result = 1;
+        while(!queue.isEmpty()) {
+            int queueSize = queue.size();
+            for(int i=0;i<queueSize;i++) {
+                Location value = queue.poll();
+                int row = value.x;
+                int col = value.y;
+                for(int j=0;j<4;j++) {
+                        int newX = row + dx[j];
+                        int newY = col + dy[j];
+                        if(newX >= maxRow || newY >= maxCol || newX < 0 || newY < 0 
+                           || maps[newY][newX] == 0 || visited[newY][newX]) {
+                            continue;
+                        }
+                        if(newX == maxRow - 1 && newY == maxCol - 1) {
+                           return result + 1;
+                        }
+                        visited[newY][newX] = true;
+                        queue.add(new Location(newX, newY));  
                 }
             }
+            result++;
         }
+        
+        return -1;
     }
-
-    public boolean isValid(int x, int y) {
-        return x >= 0 && x < width && y >= 0 && y < height;
-    }
-
-    public static class Node {
-        public int x, y;
-
-        public Node(int x, int y) {
+    
+    public static class Location {
+        int x;
+        int y;
+        public Location(int x, int y) {
             this.x = x;
             this.y = y;
         }
