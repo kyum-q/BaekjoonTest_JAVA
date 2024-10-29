@@ -1,54 +1,48 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 class Solution {
-    public static boolean [] visited;
-    public static ArrayList[] lists;
-    public static int count = 0;
-
+    
+    private static boolean [] visited;
+    private static ArrayList<Integer> [] connects;
+    
     public int solution(int n, int[][] computers) {
-        visited = new boolean[n];
-        lists = new ArrayList[n];
+        visited = new boolean [n];
+        connects = new ArrayList [n];
         for(int i=0;i<n;i++) {
-            lists[i] = new ArrayList<>();
-            for(int j=0;j<computers[i].length;j++) {
-                if(j!=i && computers[i][j] == 1) {
-                    lists[i].add(j);
+            connects[i] = new ArrayList<>();
+        }
+        for(int i=0;i<n;i++) {
+            for(int j=i+1;j<n;j++) {
+                if(computers[i][j] == 1) {
+                    connects[i].add(j);
+                    connects[j].add(i);
                 }
             }
         }
-
-        for(int i=0;i<n;i++) {
-            BFS(i);
-        }
         
-        return count;
+        int result = 0;
+        for(int i=0;i<n;i++) {
+            if(visited[i]) {
+                continue;
+            }
+            result += DFS(n, i, computers);
+        }
+        return result;
     }
-
-    public void BFS(int index) {
-        Queue<Integer> queue = new LinkedList<>();
-        
-        if(!visited[index]) {
-            visited[index] = true;
-            queue.add(index);
-            while (!queue.isEmpty()) {
-                int queueSize = queue.size();
-                for (int i = 0; i < queueSize; i++) {
-                    int newIndex = queue.poll();
-
-                    ArrayList<Integer> list = lists[newIndex];
-
-                    for (int j = 0; j < list.size(); j++) {
-                        int n = list.get(j);
-                        if (!visited[n]) {
-                            visited[n] = true;
-                            queue.add(n);
-                        }
-                    }
-                }
-            }
-            count++;
+    
+    public int DFS(int n, int value, int [][] computers) {
+        if(value < 0 || value >= n) {
+            return 0; 
         }
+        int result = (visited[value]) ? 0 : 1;
+        ArrayList<Integer> connect = connects[value];
+        for(int computer : connect) {
+            if(visited[computer]) {
+                continue;
+            }
+            visited[computer] = true;
+            result += DFS(n, computer, computers);
+        }
+        return result;
     }
 }
