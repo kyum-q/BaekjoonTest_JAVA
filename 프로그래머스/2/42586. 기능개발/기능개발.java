@@ -2,40 +2,29 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        ArrayList<Integer> result = new ArrayList<>();
-        HashMap<Integer, Integer> check = new HashMap<>();
-
-        for (int i = 0; i < progresses.length; i++) {
-            check.put(i, progresses[i]);
-        }
-
-        int index = 0;
-        while(index < progresses.length) {
-            if(check.get(index) >= 100) {
-                int count = 0;
-                for (int i = index; i < progresses.length; i++) {
-                    int value = check.get(i);
-                    if(value >= 100) {
-                        count++;
-                    }
-                    else
-                        break;
+        ArrayList<Integer> results = new ArrayList<>();
+        
+        for(int i=0;i<progresses.length;i++) { 
+            int sum = ((100 - progresses[i]) % speeds[i] == 0) 
+                ? (100 - progresses[i]) / speeds[i]
+                : (100 - progresses[i]) / speeds[i] + 1;
+            
+            int result = 1;
+            for(int j=i+1;j<progresses.length;j++) {
+                if(progresses[j] + (speeds[j] * sum) < 100) {
+                    break;
                 }
-
-                result.add(count);
-                index = index+count;
+                result++;
+                i++;
             }
-
-            for (int i = index; i < progresses.length; i++) {
-                check.put(i, check.get(i) + speeds[i]);
-            }
+            results.add(result);
         }
-
-        int [] answer = new int[result.size()];
-        for (int i = 0; i < result.size(); i++) {
-            answer[i] = result.get(i);
+        
+        int [] answer = new int [results.size()];
+        for(int i=0;i<results.size();i++) {
+            answer[i] = results.get(i);
         }
-
+        
         return answer;
     }
 }
