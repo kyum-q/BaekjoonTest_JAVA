@@ -1,42 +1,40 @@
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 class Solution {
     public int[] solution(int[] prices) {
-        int[] answer = new int[prices.length];
-
+        int[] answer = new int [prices.length];
+        
         Queue<Node> queue = new PriorityQueue<>();
-
-        for (int i = 0; i < prices.length; i++) {
-            while (!queue.isEmpty() && queue.peek().price > prices[i]) {
-                Node value = queue.poll();
-                answer[value.index] = i - value.index;
+        for(int i=0;i<prices.length;i++) {
+            while(!queue.isEmpty() && queue.peek().value > prices[i]) {
+                Node node = queue.poll();
+                answer[node.index] = i - node.index;
             }
-            queue.add(new Node(prices[i],i));
+            queue.add(new Node(i, prices[i]));
         }
-
+        
         while(!queue.isEmpty()) {
-            Node value = queue.poll();
-            answer[value.index] =prices.length - 1 - value.index;
+            Node node = queue.poll();
+            answer[node.index] = prices.length - 1 - node.index;
         }
-
+        
         return answer;
     }
-
+    
     public static class Node implements Comparable<Node> {
-        int price;
         int index;
-        public Node(int price, int index) {
-            this.price = price;
+        int value;
+        public Node(int index, int value) {
             this.index = index;
+            this.value = value;
         }
-
+        
         @Override
         public int compareTo(Node o) {
-            if(price == o.price) {
+            if(value == o.value) {
                 return index - o.index;
             }
-            return o.price - price;
+            return o.value - value;
         }
     }
 }
