@@ -1,32 +1,48 @@
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 class Solution {
-    public static void main(String[] args) {
-        new Solution().solution(2,10, new int[]{7, 4, 5, 6});
-    }
     public int solution(int bridge_length, int weight, int[] truck_weights) {
-        int answer = 0;
-
-        int sumWeight = 0;
+        
         Queue<Integer> queue = new LinkedList<>();
-
-        int index = 0;
-        while(index < truck_weights.length) {
-            if(queue.size()+1 > bridge_length) {
-                sumWeight -= queue.poll();
+        int sum = 0;
+        int answer = 0;
+        int nextIndex = 0;
+        for(int i=0;i<bridge_length;i++){
+            if(i >= truck_weights.length) {
+                return truck_weights.length + bridge_length;
             }
-            if(sumWeight+truck_weights[index] > weight) {
+            if(sum + truck_weights[i] > weight) {
+                for(int j=i;j<bridge_length;j++){
+                    queue.add(0);
+                    answer++;
+                }
+                break;
+            }
+            queue.add(truck_weights[i]);
+            nextIndex++;
+            sum += truck_weights[i];
+            answer++;
+        }
+        
+        while(!queue.isEmpty()) {
+            int value = queue.poll();
+            sum -= value;
+            
+            if(nextIndex >= truck_weights.length) {
+                answer++;
+                continue;
+            }
+            if(sum + truck_weights[nextIndex] > weight) {
                 queue.add(0);
             }
             else {
-                sumWeight += truck_weights[index];
-                queue.add(truck_weights[index]);
-                index++;
+                queue.add(truck_weights[nextIndex]);
+                sum += truck_weights[nextIndex];
+                nextIndex++;
             }
             answer++;
         }
-
-        return answer+bridge_length;
+        
+        return answer;
     }
 }
