@@ -1,0 +1,13 @@
+SELECT DISTINCT CAR_ID, 
+    IF(
+        NOT EXISTS (
+            SELECT 1
+            FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY AS sub
+            WHERE sub.CAR_ID = C.CAR_ID
+              AND '2022-10-16' BETWEEN sub.START_DATE AND sub.END_DATE
+        ), 
+        '대여 가능', 
+        '대여중'
+    ) AS AVAILABILITY
+FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY AS C
+ORDER BY CAR_ID DESC;
